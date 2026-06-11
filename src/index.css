@@ -1,0 +1,818 @@
+/* ============================================================
+   GuitarLearn — Design System & Global Styles
+   A premium dark-themed CSS foundation for the guitar learning app.
+   ============================================================ */
+
+/* ── Google Fonts ──────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ── Custom Properties (Design Tokens) ─────────────────────── */
+:root {
+  /* Surface palette */
+  --bg-primary: #0D0D0D;
+  --bg-card: #181818;
+  --bg-elevated: #242424;
+
+  /* Text palette */
+  --text-primary: #F0EDE8;
+  --text-secondary: #9E9E9E;
+  --text-mono: #E8D5A3;
+
+  /* Border */
+  --border: rgba(255, 255, 255, 0.08);
+
+  /* Accent — default is acoustic gold */
+  --accent: #E8A020;
+  --accent-glow: rgba(232, 160, 32, 0.35);
+
+  /* Fretboard */
+  --fretboard-bg: #2C1810;
+  --neck-grain: linear-gradient(180deg, #3D2212 0%, #2C1810 50%, #3D2212 100%);
+
+  /* Typography stacks */
+  --font-heading: 'Bebas Neue', 'Arial Black', sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 100px;
+
+  /* Shadows */
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.45);
+  --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.55);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+  --transition-slow: 0.4s ease;
+
+  /* Base font settings */
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  color-scheme: dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Guitar-Type Theme Overrides ───────────────────────────── */
+[data-guitar-type="acoustic"] {
+  --accent: #E8A020;
+  --accent-glow: rgba(232, 160, 32, 0.35);
+  --fretboard-bg: #2C1810;
+  --neck-grain: linear-gradient(180deg, #3D2212 0%, #2C1810 50%, #3D2212 100%);
+}
+
+[data-guitar-type="classical"] {
+  --accent: #C4622D;
+  --accent-glow: rgba(196, 98, 45, 0.35);
+  --fretboard-bg: #1A0F08;
+  --neck-grain: linear-gradient(180deg, #2A1508 0%, #1A0F08 50%, #2A1508 100%);
+}
+
+[data-guitar-type="electric"] {
+  --accent: #4A9EFF;
+  --accent-glow: rgba(74, 158, 255, 0.35);
+  --fretboard-bg: #D4B896;
+  --neck-grain: linear-gradient(180deg, #E0C8A8 0%, #D4B896 50%, #E0C8A8 100%);
+}
+
+/* ── Animations ────────────────────────────────────────────── */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px var(--accent-glow), 0 0 20px var(--accent-glow); }
+  50%      { box-shadow: 0 0 16px var(--accent-glow), 0 0 40px var(--accent-glow); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes progress-fill {
+  from { width: 0; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Reset & Base ──────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+a:hover { opacity: 0.8; }
+
+::selection {
+  background: var(--accent);
+  color: var(--bg-primary);
+}
+
+/* ── Focus-Visible (accessibility) ─────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ── Custom Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--bg-primary);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg-elevated) var(--bg-primary);
+}
+
+/* ── App Shell ─────────────────────────────────────────────── */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Header ────────────────────────────────────────────────── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  background: rgba(13, 13, 13, 0.75);
+  backdrop-filter: blur(16px) saturate(1.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  border-bottom: 1px solid var(--border);
+}
+
+.header h1 {
+  font-size: 28px;
+  margin: 0;
+}
+
+/* ── Guitar Selector (tab bar) ─────────────────────────────── */
+.guitar-selector {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-card);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  border: 1px solid var(--border);
+}
+
+.guitar-selector-btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.guitar-selector-btn:hover {
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+}
+
+.guitar-selector-btn.active {
+  background: var(--accent);
+  color: var(--bg-primary);
+  box-shadow: 0 2px 12px var(--accent-glow);
+}
+
+/* ── Hero Section ──────────────────────────────────────────── */
+.hero-section {
+  display: flex;
+  align-items: stretch;
+  gap: 32px;
+  padding: 32px 0;
+  animation: fade-in 0.5s ease;
+}
+
+.hero-section .guitar-illustration {
+  flex: 0 0 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-section .fretboard-container {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Controls Bar ──────────────────────────────────────────── */
+.controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+/* ── Root Selector (dropdown) ──────────────────────────────── */
+.root-selector {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 14px;
+  padding-right: 32px;
+  background: var(--bg-elevated);
+  color: var(--text-mono);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  appearance: none;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239E9E9E' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.root-selector:hover,
+.root-selector:focus {
+  border-color: var(--accent);
+}
+
+/* ── BPM Slider ────────────────────────────────────────────── */
+.bpm-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 120px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-elevated);
+  outline: none;
+  cursor: pointer;
+}
+
+.bpm-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg-primary);
+  box-shadow: 0 0 8px var(--accent-glow);
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.bpm-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.bpm-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--bg-primary);
+  box-shadow: 0 0 8px var(--accent-glow);
+  cursor: pointer;
+}
+
+/* ── Toggle Button ─────────────────────────────────────────── */
+.toggle-btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  user-select: none;
+}
+
+.toggle-btn:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.toggle-btn.active {
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-color: var(--accent);
+}
+
+/* ── Now Playing ───────────────────────────────────────────── */
+.now-playing {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-mono);
+  letter-spacing: 0.02em;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.now-playing.active {
+  border-color: var(--accent);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ── Content Tabs ──────────────────────────────────────────── */
+.content-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.tab-btn {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 24px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  position: relative;
+  transition: color var(--transition-base);
+}
+
+.tab-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transition: transform var(--transition-base);
+}
+
+.tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.tab-btn.active {
+  color: var(--accent);
+}
+
+.tab-btn.active::after {
+  transform: scaleX(1);
+}
+
+/* ── Cards Grid ────────────────────────────────────────────── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+/* ── Scale / Exercise Card ─────────────────────────────────── */
+.scale-card,
+.exercise-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--bg-elevated);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  text-align: left;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  animation: slide-up 0.4s ease backwards;
+  cursor: pointer;
+}
+
+.scale-card:hover,
+.exercise-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card);
+  border-top-color: var(--accent);
+}
+
+.scale-card.playing,
+.exercise-card.playing,
+.card.playing {
+  border-color: var(--accent);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.scale-card h3,
+.exercise-card h3 {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.scale-card p,
+.exercise-card p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+/* Stagger card entrance animations */
+.cards-grid > :nth-child(1)  { animation-delay: 0.00s; }
+.cards-grid > :nth-child(2)  { animation-delay: 0.06s; }
+.cards-grid > :nth-child(3)  { animation-delay: 0.12s; }
+.cards-grid > :nth-child(4)  { animation-delay: 0.18s; }
+.cards-grid > :nth-child(5)  { animation-delay: 0.24s; }
+.cards-grid > :nth-child(6)  { animation-delay: 0.30s; }
+.cards-grid > :nth-child(7)  { animation-delay: 0.36s; }
+.cards-grid > :nth-child(8)  { animation-delay: 0.42s; }
+.cards-grid > :nth-child(9)  { animation-delay: 0.48s; }
+
+/* ── Difficulty Badge ──────────────────────────────────────── */
+.difficulty-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  line-height: 1.4;
+}
+
+.difficulty-badge.beginner     { background: rgba(52, 211, 153, 0.15); color: #34D399; }
+.difficulty-badge.intermediate { background: rgba(251, 191, 36, 0.15); color: #FBBF24; }
+.difficulty-badge.advanced     { background: rgba(239, 68, 68, 0.15);  color: #EF4444; }
+
+/* ── Play / Stop Buttons ───────────────────────────────────── */
+.play-btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 22px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--bg-primary);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.play-btn:hover {
+  box-shadow: 0 0 20px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.play-btn:active {
+  transform: translateY(0);
+}
+
+.stop-btn {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 22px;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  border-radius: var(--radius-pill);
+  background: rgba(239, 68, 68, 0.12);
+  color: #EF4444;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stop-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.25);
+}
+
+/* ── Progress Bar ──────────────────────────────────────────── */
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.progress-bar .fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: var(--radius-pill);
+  animation: progress-fill 0.6s ease;
+  transition: width var(--transition-base);
+}
+
+/* ── Category Header ───────────────────────────────────────── */
+.category-header {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  padding-left: 14px;
+  margin: 28px 0 16px;
+  border-left: 3px solid var(--accent);
+}
+
+/* ── Loading Overlay ───────────────────────────────────────── */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.loading-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--bg-elevated);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ── Did You Know ──────────────────────────────────────────── */
+.did-you-know {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.did-you-know summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-primary);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.did-you-know summary::before {
+  content: '💡';
+}
+
+.did-you-know[open] summary {
+  margin-bottom: 10px;
+}
+
+/* ── Fretboard Container ───────────────────────────────────── */
+.fretboard-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  overflow-x: auto;
+}
+
+.fretboard-container svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ── Mini Fretboard (card previews) ────────────────────────── */
+.mini-fretboard {
+  background: var(--fretboard-bg);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.mini-fretboard svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0.85;
+}
+
+/* ── Responsive: Tablet (768–1023px) ───────────────────────── */
+@media (max-width: 1023px) {
+  .app {
+    padding: 0 16px;
+  }
+
+  .hero-section {
+    flex-direction: column;
+  }
+
+  .hero-section .guitar-illustration {
+    flex: none;
+    max-height: 200px;
+  }
+
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .controls-bar {
+    gap: 10px;
+  }
+}
+
+/* ── Responsive: Mobile (≤767px) ───────────────────────────── */
+@media (max-width: 767px) {
+  .app {
+    padding: 0 12px;
+  }
+
+  .header {
+    padding: 10px 12px;
+  }
+
+  .header h1 {
+    font-size: 22px;
+  }
+
+  .guitar-selector {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .guitar-selector-btn {
+    font-size: 12px;
+    padding: 6px 14px;
+  }
+
+  .hero-section {
+    padding: 16px 0;
+  }
+
+  .hero-section .guitar-illustration {
+    display: none;
+  }
+
+  .fretboard-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .controls-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .bpm-slider {
+    width: 100%;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .now-playing {
+    font-size: 18px;
+    padding: 8px 14px;
+  }
+
+  .content-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tab-btn {
+    font-size: 13px;
+    padding: 10px 16px;
+    white-space: nowrap;
+  }
+}
+
+/* ── Content Area ──────────────────────────────────────────── */
+.content-area {
+  flex: 1;
+  padding-bottom: 40px;
+}
+
+.cards-container {
+  animation: fade-in 0.4s ease;
+}
+
+/* ── Footer ────────────────────────────────────────────────── */
+.app-footer {
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: auto;
+}
+
+.app-footer p {
+  margin: 0;
+}
+
+/* ── Select option styling ─────────────────────────────────── */
+.root-selector option {
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
